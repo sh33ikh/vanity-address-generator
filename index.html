@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Generate Ethereum vanity addresses easily and securely with customizable prefixes. Responsive and modern design with QR code support.">
-  <meta name="keywords" content="Ethereum, Vanity Address, Generator, Blockchain, Cryptocurrency, Secure Wallet">
+  <meta name="description" content="Generate Ethereum vanity addresses with customizable prefixes. Secure, responsive, and QR code-enabled.">
+  <meta name="keywords" content="Ethereum, Vanity Address, Generator, Blockchain, Crypto, Wallet">
   <meta name="author" content="sh33ikh">
   <meta property="og:title" content="Ethereum Vanity Address Generator">
-  <meta property="og:description" content="Generate Ethereum vanity addresses easily and securely with customizable prefixes. Responsive and modern design with QR code support.">
+  <meta property="og:description" content="Generate Ethereum vanity addresses with customizable prefixes. Secure, responsive, and QR code-enabled.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://sh33ikh.github.io/vanity-address-generator">
   <meta property="og:image" content="https://sh33ikh.github.io/vanity-address-generator/preview.png">
@@ -16,7 +16,7 @@
   <link rel="icon" href="favicon.ico" type="image/x-icon">
 </head>
 <body>
-  <header>
+  <header class="header">
     <nav class="navbar">
       <div class="container">
         <a href="#" class="logo">VanityGen</a>
@@ -31,41 +31,41 @@
   </header>
 
   <main>
-    <section id="hero" class="hero-section">
+    <section class="hero-section" id="hero">
       <div class="container">
-        <h1>Ethereum Vanity Address Generator</h1>
-        <p>Create secure and personalized Ethereum addresses with ease.</p>
-        <a href="#generator" class="btn-primary">Start Generating</a>
+        <h1>Generate Your Ethereum Vanity Address</h1>
+        <p>Create unique and secure Ethereum addresses with a custom prefix.</p>
+        <a href="#generator" class="btn-primary">Get Started</a>
       </div>
     </section>
 
-    <section id="features" class="features-section">
+    <section class="features-section" id="features">
       <div class="container">
-        <h2>Features</h2>
+        <h2>Key Features</h2>
         <div class="features">
           <div class="feature-item">
             <h3>Custom Prefix</h3>
-            <p>Create addresses starting with your chosen characters.</p>
+            <p>Choose your desired prefix for your Ethereum address.</p>
           </div>
           <div class="feature-item">
-            <h3>Secure Key Pair</h3>
-            <p>Private keys generated securely on your device.</p>
+            <h3>Secure Key Generation</h3>
+            <p>Private keys are generated locally, ensuring maximum security.</p>
           </div>
           <div class="feature-item">
-            <h3>QR Code</h3>
-            <p>Get a QR code for your generated address.</p>
+            <h3>QR Code Support</h3>
+            <p>Get a QR code for easy sharing and scanning of your address.</p>
           </div>
           <div class="feature-item">
             <h3>Responsive Design</h3>
-            <p>Fully responsive and mobile-friendly interface.</p>
+            <p>Access the generator on any device with a seamless experience.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="generator" class="generator-section">
+    <section class="generator-section" id="generator">
       <div class="container">
-        <h2>Generate Your Address</h2>
+        <h2>Generate Your Vanity Address</h2>
         <div class="form-group">
           <label for="prefix">Desired Prefix:</label>
           <input type="text" id="prefix" placeholder="Enter prefix (e.g., 0x123)">
@@ -84,9 +84,10 @@
     <div class="container">
       <p>&copy; 2024 VanityGen. All rights reserved.</p>
       <ul class="social-links">
-        <li><a href="#"><img src="icons/facebook.svg" alt="Facebook"></a></li>
-        <li><a href="#"><img src="icons/twitter.svg" alt="Twitter"></a></li>
-        <li><a href="#"><img src="icons/linkedin.svg" alt="LinkedIn"></a></li>
+        <li><a href="#"><i class="fab fa-facebook"></i></a></li>
+        <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+        <li><a href="#"><i class="fab fa-linkedin"></i></a></li>
+        <li><a href="https://t.me/RektDevelopers" target="_blank"><i class="fab fa-telegram"></i></a></li>
       </ul>
     </div>
   </footer>
@@ -94,34 +95,43 @@
   <script src="js/qr-code.min.js"></script>
   <script src="js/ethers.min.js"></script>
   <script>
-    document.getElementById('generate').addEventListener('click', async () => {
-      const prefix = document.getElementById('prefix').value.toLowerCase();
-      const ethers = window.ethers;
-      let wallet, address;
+    document.addEventListener('DOMContentLoaded', function () {
+      const generateButton = document.getElementById('generate');
+      const prefixInput = document.getElementById('prefix');
+      const outputSection = document.getElementById('output');
+      const addressElement = document.getElementById('address');
+      const privateKeyElement = document.getElementById('privateKey');
+      const qrCodeElement = document.getElementById('qrcode');
 
-      if (!prefix.startsWith('0x')) {
-        alert('Prefix must start with "0x"');
-        return;
-      }
+      generateButton.addEventListener('click', async () => {
+        const prefix = prefixInput.value.toLowerCase();
+        const ethers = window.ethers;
+        let wallet, address;
 
-      document.getElementById('output').classList.add('hidden');
-      document.getElementById('qrcode').innerHTML = '';
-      
-      do {
-        wallet = ethers.Wallet.createRandom();
-        address = wallet.address.toLowerCase();
-      } while (!address.startsWith(prefix));
+        if (!prefix.startsWith('0x')) {
+          alert('Prefix must start with "0x"');
+          return;
+        }
 
-      document.getElementById('address').textContent = address;
-      document.getElementById('privateKey').textContent = wallet.privateKey;
+        outputSection.classList.add('hidden');
+        qrCodeElement.innerHTML = '';
 
-      new QRCode(document.getElementById('qrcode'), {
-        text: address,
-        width: 128,
-        height: 128,
+        do {
+          wallet = ethers.Wallet.createRandom();
+          address = wallet.address.toLowerCase();
+        } while (!address.startsWith(prefix));
+
+        addressElement.textContent = address;
+        privateKeyElement.textContent = wallet.privateKey;
+
+        new QRCode(qrCodeElement, {
+          text: address,
+          width: 128,
+          height: 128,
+        });
+
+        outputSection.classList.remove('hidden');
       });
-
-      document.getElementById('output').classList.remove('hidden');
     });
   </script>
 </body>
