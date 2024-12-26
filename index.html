@@ -12,7 +12,7 @@
   <meta property="og:url" content="https://sh33ikh.github.io/vanity-address-generator">
   <meta property="og:image" content="https://sh33ikh.github.io/vanity-address-generator/preview.png">
   <title>Ethereum Vanity Address Generator</title>
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="css/styles.css">
   <link rel="icon" href="favicon.ico" type="image/x-icon">
 </head>
 <body>
@@ -91,8 +91,8 @@
     </div>
   </footer>
 
-  <script src="qr-code.min.js"></script>
-  <script src="ethers.min.js"></script>
+  <script src="js/qr-code.min.js"></script>
+  <script src="js/ethers.min.js"></script>
   <script>
     document.getElementById('generate').addEventListener('click', async () => {
       const prefix = document.getElementById('prefix').value.toLowerCase();
